@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Prashant Kumar | Full Stack Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#0a0a14;
+  --bg2:#111122;
+  --primary:#6366f1;
+  --accent:#22d3ee;
+  --pink:#ec4899;
+  --text:#e5e7eb;
+  --muted:#9ca3af;
+  --card:rgba(255,255,255,0.04);
+  --border:rgba(255,255,255,0.08);
+  --shadow:rgba(0,0,0,0.3);
+}
+[data-theme="light"]{
+  --bg:#f5f7fb;
+  --bg2:#ffffff;
+  --primary:#6366f1;
+  --accent:#0891b2;
+  --pink:#db2777;
+  --text:#1f2937;
+  --muted:#6b7280;
+  --card:rgba(255,255,255,0.7);
+  --border:rgba(0,0,0,0.08);
+  --shadow:rgba(99,102,241,0.15);
+}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Poppins',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  overflow-x:hidden;
+  line-height:1.6;
+  transition:background .5s ease,color .5s ease;
+}
+
+/* Particles canvas */
+#particles{position:fixed;inset:0;z-index:-2;}
+
+/* Animated gradient bg */
+.bg-blur{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none;}
+.bg-blur::before,.bg-blur::after{
+  content:"";position:absolute;width:500px;height:500px;border-radius:50%;
+  filter:blur(120px);opacity:.25;animation:float 12s ease-in-out infinite;
+}
+.bg-blur::before{background:var(--primary);top:-100px;left:-100px;}
+.bg-blur::after{background:var(--accent);bottom:-100px;right:-100px;animation-delay:-6s;}
+@keyframes float{0%,100%{transform:translate(0,0);}50%{transform:translate(80px,80px);}}
+
+/* Custom cursor */
+.cursor{position:fixed;width:20px;height:20px;border:2px solid var(--accent);border-radius:50%;pointer-events:none;z-index:9999;transition:transform .2s,background .2s,width .2s,height .2s;mix-blend-mode:difference;}
+.cursor.hover{width:50px;height:50px;background:var(--accent);}
+@media(max-width:768px){.cursor{display:none;}}
+
+/* Navbar */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:1.2rem 5%;display:flex;justify-content:space-between;align-items:center;backdrop-filter:blur(15px);background:var(--card);border-bottom:1px solid var(--border);}
+.logo{font-family:'Space Grotesk';font-size:1.5rem;font-weight:700;background:linear-gradient(90deg,var(--primary),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.nav-right{display:flex;align-items:center;gap:1.5rem;}
+.nav-links{display:flex;gap:2rem;list-style:none;}
+.nav-links a{color:var(--text);text-decoration:none;font-weight:500;font-size:.95rem;position:relative;transition:.3s;}
+.nav-links a::after{content:"";position:absolute;bottom:-5px;left:0;width:0;height:2px;background:linear-gradient(90deg,var(--primary),var(--accent));transition:width .3s;}
+.nav-links a:hover::after,.nav-links a.active::after{width:100%;}
+.nav-links a:hover{color:var(--accent);}
+
+/* Theme toggle */
+.theme-btn{
+  width:50px;height:26px;background:var(--card);border:1px solid var(--border);
+  border-radius:50px;cursor:pointer;position:relative;transition:.4s;flex-shrink:0;
+}
+.theme-btn::before{
+  content:"🌙";position:absolute;width:22px;height:22px;border-radius:50%;
+  background:linear-gradient(135deg,var(--primary),var(--accent));
+  top:1px;left:1px;display:flex;align-items:center;justify-content:center;
+  font-size:.7rem;transition:.4s;
+}
+[data-theme="light"] .theme-btn::before{transform:translateX(24px);content:"☀️";}
+
+.menu-btn{display:none;font-size:1.4rem;background:none;border:none;color:var(--text);cursor:pointer;}
+@media(max-width:768px){
+  .nav-links{position:fixed;top:70px;right:-100%;flex-direction:column;background:var(--bg2);backdrop-filter:blur(20px);width:75%;height:100vh;padding:2rem;transition:.4s;border-left:1px solid var(--border);}
+  .nav-links.show{right:0;}
+  .menu-btn{display:block;}
+  .nav-right{gap:1rem;}
+}
+
+/* Sections */
+section{padding:6rem 8% 4rem;min-height:100vh;display:flex;flex-direction:column;justify-content:center;}
+@media(max-width:768px){section{padding:5rem 5% 3rem;}}
+.section-title{font-family:'Space Grotesk';font-size:clamp(2rem,5vw,3rem);font-weight:700;margin-bottom:.6rem;text-align:center;}
+.section-title span{background:linear-gradient(90deg,var(--primary),var(--accent),var(--pink));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.section-sub{text-align:center;color:var(--muted);margin-bottom:3rem;}
+
+/* HERO */
+#home{display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:3rem;flex-wrap:wrap;}
+.hero-text{flex:1;min-width:300px;}
+.hero-text h4{color:var(--accent);font-weight:500;letter-spacing:2px;margin-bottom:.8rem;animation:slideUp .8s ease;}
+.hero-text h1{font-family:'Space Grotesk';font-size:clamp(2.2rem,6vw,4.5rem);font-weight:800;line-height:1.1;margin-bottom:1rem;animation:slideUp 1s ease;}
+.hero-text h1 span{background:linear-gradient(90deg,var(--primary),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.typed{font-size:clamp(1rem,3vw,1.6rem);font-weight:600;color:var(--accent);margin-bottom:1.2rem;min-height:2rem;}
+.typed::after{content:"|";animation:blink 1s infinite;color:var(--pink);}
+@keyframes blink{50%{opacity:0;}}
+.hero-text p{color:var(--muted);max-width:550px;margin-bottom:2rem;animation:slideUp 1.2s ease;}
+.btn-group{display:flex;gap:1rem;flex-wrap:wrap;animation:slideUp 1.4s ease;}
+.btn{padding:.85rem 1.8rem;border-radius:50px;font-weight:600;text-decoration:none;cursor:pointer;border:none;font-size:.9rem;transition:.4s;display:inline-flex;align-items:center;gap:.5rem;}
+.btn-primary{background:linear-gradient(90deg,var(--primary),var(--accent));color:#fff;box-shadow:0 8px 25px rgba(99,102,241,.4);}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 12px 35px rgba(34,211,238,.5);}
+.btn-outline{border:2px solid var(--border);color:var(--text);background:transparent;}
+.btn-outline:hover{border-color:var(--accent);color:var(--accent);}
+
+.hero-img{flex:1;min-width:280px;display:flex;justify-content:center;}
+.avatar{width:clamp(240px,40vw,340px);height:clamp(240px,40vw,340px);border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--accent),var(--pink));padding:6px;animation:floatY 4s ease-in-out infinite;position:relative;box-shadow:0 25px 70px rgba(34,211,238,.18);}
+.avatar::before{content:"";position:absolute;inset:-15px;border:2px dashed var(--accent);border-radius:50%;animation:spin 20s linear infinite;opacity:.4;}
+.avatar::after{content:"";position:absolute;inset:6px;border-radius:50%;box-shadow:inset 0 -35px 55px rgba(10,10,20,.25),inset 0 0 0 1px rgba(255,255,255,.12);pointer-events:none;}
+.avatar img{width:100%;height:100%;border-radius:50%;object-fit:cover;object-position:center 24%;background:var(--bg2);display:block;}
+@keyframes floatY{0%,100%{transform:translateY(0);}50%{transform:translateY(-20px);}}
+@keyframes spin{to{transform:rotate(360deg);}}
+@keyframes slideUp{from{opacity:0;transform:translateY(40px);}to{opacity:1;transform:translateY(0);}}
+
+.socials{display:flex;gap:1rem;margin-top:1.8rem;flex-wrap:wrap;}
+.socials a{width:42px;height:42px;border-radius:50%;background:var(--card);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--text);text-decoration:none;transition:.4s;}
+.socials a:hover{background:linear-gradient(135deg,var(--primary),var(--accent));transform:translateY(-5px) rotate(360deg);color:#fff;}
+
+/* About */
+.about-wrap{display:grid;grid-template-columns:1fr 1.3fr;gap:3rem;align-items:center;}
+@media(max-width:900px){.about-wrap{grid-template-columns:1fr;}}
+.about-img{position:relative;}
+.about-img .frame{width:100%;max-width:320px;aspect-ratio:4/5;border-radius:20px;background:linear-gradient(135deg,var(--primary),var(--pink));padding:5px;margin:0 auto;transition:.5s;box-shadow:0 25px 70px rgba(236,72,153,.16);}
+.about-img .frame:hover{transform:rotate(-3deg) scale(1.03);}
+.about-img .frame img{width:100%;height:100%;border-radius:18px;object-fit:cover;object-position:center 18%;background:var(--bg2);display:block;}
+.about-text h3{font-family:'Space Grotesk';font-size:clamp(1.3rem,3vw,1.8rem);margin-bottom:1rem;}
+.about-text h3 span{color:var(--accent);}
+.about-text p{color:var(--muted);margin-bottom:1.2rem;}
+.about-info{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:1rem 1.4rem;margin:1.5rem 0;}
+.about-info div{display:grid;grid-template-columns:80px minmax(0,1fr);gap:.5rem;font-size:.9rem;min-width:0;overflow-wrap:anywhere;}
+.about-info b{color:var(--accent);}
+
+/* Skills - 3D Tilt */
+.skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1.2rem;perspective:1000px;}
+.skill{
+  background:var(--card);border:1px solid var(--border);border-radius:16px;
+  padding:1.5rem 1rem;text-align:center;transition:transform .1s ease-out,box-shadow .4s,border-color .4s;
+  cursor:pointer;position:relative;overflow:hidden;
+  transform-style:preserve-3d;
+}
+.skill::before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,var(--primary),var(--accent));opacity:0;transition:.4s;z-index:0;}
+.skill:hover::before{opacity:.15;}
+.skill:hover{border-color:var(--accent);box-shadow:0 25px 50px var(--shadow);}
+.skill i{font-size:2.5rem;margin-bottom:.6rem;background:linear-gradient(135deg,var(--primary),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;position:relative;z-index:1;transform:translateZ(40px);}
+.skill h4{position:relative;z-index:1;font-size:.95rem;transform:translateZ(30px);}
+.skill p{font-size:.8rem;color:var(--muted);position:relative;z-index:1;transform:translateZ(20px);}
+.skills-categories{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1.2rem;align-items:stretch;}
+.skill-group{
+  background:var(--card);border:1px solid var(--border);border-radius:14px;
+  padding:1.4rem;transition:.35s;backdrop-filter:blur(10px);
+}
+.skill-group:hover{border-color:var(--accent);transform:translateY(-5px);box-shadow:0 15px 40px var(--shadow);}
+.skill-group h3{font-family:'Space Grotesk';font-size:1.1rem;margin-bottom:.8rem;color:var(--accent);display:flex;align-items:center;gap:.5rem;}
+.skill-group h3 i{font-size:1rem;color:var(--pink);}
+.skill-group ul{list-style:none;color:var(--text);}
+.skill-group li{margin:.45rem 0;color:var(--muted);line-height:1.45;}
+.skill-group li i{width:1.2rem;margin-right:.45rem;color:var(--accent);text-align:center;}
+@media(max-width:1024px){.skills-categories{grid-template-columns:repeat(2,minmax(0,1fr));}}
+@media(max-width:600px){.skills-categories{grid-template-columns:1fr;}.skill-group{padding:1.2rem;}}
+
+/* Experience Timeline */
+.timeline{position:relative;max-width:900px;margin:0 auto;padding:1rem 0;}
+.timeline::before{
+  content:"";position:absolute;left:50%;top:0;bottom:0;width:3px;
+  background:linear-gradient(var(--primary),var(--accent),var(--pink));
+  transform:translateX(-50%);border-radius:5px;
+}
+.tl-item{position:relative;width:50%;padding:1rem 2.5rem;}
+.tl-item:nth-child(odd){left:0;text-align:right;}
+.tl-item:nth-child(even){left:50%;}
+.tl-item::before{
+  content:"";position:absolute;width:18px;height:18px;border-radius:50%;
+  background:linear-gradient(135deg,var(--primary),var(--accent));
+  top:1.8rem;border:4px solid var(--bg);box-shadow:0 0 0 3px var(--accent);
+  z-index:1;
+}
+.tl-item:nth-child(odd)::before{right:-9px;}
+.tl-item:nth-child(even)::before{left:-9px;}
+.tl-card{
+  background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1.3rem;
+  transition:.4s;backdrop-filter:blur(10px);
+}
+.tl-card:hover{transform:translateY(-5px);border-color:var(--accent);box-shadow:0 15px 40px var(--shadow);}
+.tl-date{display:inline-block;background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;padding:.25rem .8rem;border-radius:50px;font-size:.75rem;font-weight:600;margin-bottom:.6rem;}
+.tl-card h4{font-family:'Space Grotesk';font-size:1.15rem;margin-bottom:.3rem;}
+.tl-card h5{color:var(--accent);font-size:.9rem;font-weight:500;margin-bottom:.6rem;}
+.tl-card p{color:var(--muted);font-size:.88rem;}
+@media(max-width:768px){
+  .timeline::before{left:20px;}
+  .tl-item{width:100%;left:0!important;text-align:left!important;padding:1rem 1rem 1rem 3rem;}
+  .tl-item::before{left:11px!important;right:auto!important;}
+}
+
+/* Projects - 3D Tilt */
+.projects{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.8rem;perspective:1500px;}
+.project{
+  background:var(--card);border:1px solid var(--border);border-radius:18px;
+  overflow:hidden;transition:transform .1s ease-out,box-shadow .4s,border-color .4s;
+  cursor:pointer;transform-style:preserve-3d;
+}
+.project:hover{border-color:var(--accent);box-shadow:0 30px 60px var(--shadow);}
+.project-img{height:200px;background:linear-gradient(135deg,var(--primary),var(--pink));display:flex;align-items:center;justify-content:center;font-size:3rem;color:#fff;position:relative;overflow:hidden;}
+.project:nth-child(2) .project-img{background:linear-gradient(135deg,var(--accent),var(--primary));}
+.project:nth-child(3) .project-img{background:linear-gradient(135deg,var(--pink),var(--accent));}
+.project:nth-child(4) .project-img{background:linear-gradient(135deg,#f59e0b,var(--pink));}
+.project-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease;}
+.project-img i{transform:translateZ(50px);transition:.4s;}
+.project:hover .project-img img{transform:scale(1.08);}
+.project:hover .project-img i{transform:translateZ(80px) scale(1.1);}
+.project-body{padding:1.5rem;transform:translateZ(20px);}
+.project-body h3{font-family:'Space Grotesk';margin-bottom:.5rem;}
+.project-body h4{color:var(--accent);font-size:.95rem;font-weight:600;margin-bottom:.6rem;}
+.project-body p{color:var(--muted);font-size:.9rem;margin-bottom:1rem;}
+.tags{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1rem;}
+.tag{background:rgba(99,102,241,.15);color:var(--accent);padding:.3rem .7rem;border-radius:50px;font-size:.75rem;border:1px solid rgba(34,211,238,.2);}
+.project-links{display:flex;gap:1rem;}
+.project-links a{color:var(--accent);text-decoration:none;font-size:.85rem;font-weight:600;transition:.3s;}
+.project-links a:hover{color:var(--pink);}
+
+/* Contact */
+.contact-wrap{display:grid;grid-template-columns:1fr 1fr;gap:3rem;}
+@media(max-width:900px){.contact-wrap{grid-template-columns:1fr;}}
+.contact-info{display:flex;flex-direction:column;gap:1.2rem;}
+.info-item{display:flex;gap:1rem;align-items:center;background:var(--card);border:1px solid var(--border);padding:1.2rem;border-radius:14px;transition:.3s;}
+.info-item:hover{border-color:var(--accent);transform:translateX(8px);}
+.info-item i{width:48px;height:48px;background:linear-gradient(135deg,var(--primary),var(--accent));border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;color:#fff;flex-shrink:0;}
+.info-item h4{font-size:.85rem;color:var(--muted);margin-bottom:.2rem;}
+.info-item p{font-size:.95rem;word-break:break-word;}
+.info-item a{color:var(--text);text-decoration:none;word-break:break-word;transition:.3s;}
+.info-item a:hover{color:var(--accent);}
+
+form{background:var(--card);border:1px solid var(--border);padding:2rem;border-radius:18px;display:flex;flex-direction:column;gap:1rem;}
+form input,form textarea{background:var(--bg2);border:1px solid var(--border);padding:.85rem 1rem;border-radius:10px;color:var(--text);font-family:inherit;outline:none;transition:.3s;width:100%;}
+form input:focus,form textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(34,211,238,.15);}
+form textarea{resize:vertical;min-height:130px;}
+form button{align-self:flex-start;}
+form button:disabled{opacity:.65;cursor:not-allowed;transform:none!important;}
+.form-status{display:none;padding:.85rem 1rem;border-radius:10px;font-size:.9rem;font-weight:500;}
+.form-status.show{display:block;}
+.form-status.success{background:rgba(22,163,74,.18);border:1px solid rgba(74,222,128,.45);color:#86efac;}
+.form-status.error{background:rgba(220,38,38,.18);border:1px solid rgba(248,113,113,.45);color:#fca5a5;}
+
+/* Scroll top button */
+.top-btn{
+  position:fixed;bottom:25px;right:25px;width:48px;height:48px;border-radius:50%;
+  background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;
+  border:none;cursor:pointer;font-size:1.1rem;z-index:999;opacity:0;transform:translateY(20px);
+  transition:.4s;box-shadow:0 8px 25px rgba(99,102,241,.4);
+}
+.top-btn.show{opacity:1;transform:translateY(0);}
+.top-btn:hover{transform:translateY(-5px);}
+
+/* Footer */
+footer{padding:2rem 8%;text-align:center;border-top:1px solid var(--border);color:var(--muted);font-size:.9rem;}
+footer span{color:var(--accent);}
+
+/* Scroll reveal */
+.reveal{opacity:0;transform:translateY(50px);transition:all 1s ease;}
+.reveal.show{opacity:1;transform:translateY(0);}
+
+/* Scroll bar */
+::-webkit-scrollbar{width:8px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:linear-gradient(var(--primary),var(--accent));border-radius:10px;}
+</style>
+</head>
+<body>
+
+<canvas id="particles"></canvas>
+<div class="bg-blur"></div>
+<div class="cursor" id="cursor"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">&lt;PRASHANT/&gt;</div>
+  <div class="nav-right">
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#home" class="active">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <button class="theme-btn" id="themeBtn" aria-label="Toggle theme"></button>
+    <button class="menu-btn" id="menuBtn"><i class="fas fa-bars"></i></button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="home">
+  <div class="hero-text">
+    <h4>HELLO THERE, I'M</h4>
+    <h1>Prashant <span>Kumar</span></h1>
+    <div class="typed" id="typed"></div>
+    <p>Backend Developer with 3 years of hands-on experience in PHP, Laravel, WordPress, Node.js, queues, caching, server management, and third-party API integrations.</p>
+    <div class="btn-group">
+      <a href="mailto:prashantkumarr9837@gmail.com?subject=Project%20Inquiry%20from%20Portfolio" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Hire Me</a>
+      <a href="public/Prashant's_Resume.pdf" download class="btn btn-outline"><i class="fas fa-download"></i> Download CV</a>
+    </div>
+    <div class="socials">
+      <a href="mailto:prashantkumarr9837@gmail.com?subject=Project%20Inquiry%20from%20Portfolio" aria-label="Email"><i class="fas fa-envelope"></i></a>
+      <a href="https://github.com/Prashant-kumar070" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fab fa-github"></i></a>
+      <a href="https://www.linkedin.com/in/prashant-kumar-740568224/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+      <a href="https://gitlab.com/prashant_kumar0" target="_blank" rel="noopener noreferrer" aria-label="GitLab"><i class="fab fa-gitlab"></i></a>
+    </div>
+  </div>
+  <div class="hero-img">
+    <div class="avatar">
+      <img src="public/images/profile.png" alt="Prashant Kumar"/>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <h2 class="section-title reveal">About <span>Me</span></h2>
+  <p class="section-sub reveal">Get to know more about who I am</p>
+  <div class="about-wrap">
+    <div class="about-img reveal">
+      <div class="frame">
+        <img src="public/images/profile.png" alt="Prashant Kumar"/>
+      </div>
+    </div>
+    <div class="about-text reveal">
+      <h3>A <span>Backend Developer</span> from Ghaziabad, India</h3>
+      <p>I'm a Backend Developer with 3 years of hands-on experience in PHP, Laravel and WordPress. I specialize in building robust, scalable, and efficient web applications, managing servers, integrating third-party APIs, and improving backend performance with queues and caching.</p>
+      <p>My goal is to deliver high-performance solutions that are functional, intuitive, and user-friendly. I've contributed to AI-powered learning platforms, AI image generators, bot agents, and healthcare systems built to solve real-world problems creatively and efficiently.</p>
+      <div class="about-info">
+        <div><b>Name:</b> Prashant Kumar</div>
+        <div><b>Email:</b> prashantkumarr9837@gmail.com</div>
+        <div><b>Role:</b> Backend Developer</div>
+        <div><b>From:</b> Ghaziabad, Uttar Pradesh</div>
+        <div><b>Exp:</b> 3 Years</div>
+        <div><b>Status:</b> Available</div>
+      </div>
+      <a href="public/Prashant's_Resume.pdf" download class="btn btn-primary"><i class="fas fa-download"></i> Resume</a>
+    </div>
+  </div>
+  <div class="skills-grid" style="margin-top:3rem;">
+    <div class="skill tilt reveal"><i class="fas fa-code"></i><h4>Web Development</h4><p>High-quality development of sites at the professional level.</p></div>
+    <div class="skill tilt reveal"><i class="fas fa-globe"></i><h4>Web Design</h4><p>Responsive UI integration using HTML, CSS, JavaScript, and frontend team workflows.</p></div>
+    <div class="skill tilt reveal"><i class="fas fa-mobile-screen-button"></i><h4>Mobile Apps Backend</h4><p>Backend architecture for Android and iOS apps with subscriptions, authentication, and real-time data.</p></div>
+    <div class="skill tilt reveal"><i class="fas fa-wand-magic-sparkles"></i><h4>AI-Powered Tools</h4><p>Chatbots, image generators, prompt-based tools, and AI based apps.</p></div>
+    <div class="skill tilt reveal"><i class="fas fa-server"></i><h4>Server Management</h4><p>Deploying and managing Apache and Nginx apps with focus on performance, security, and uptime.</p></div>
+    <div class="skill tilt reveal"><i class="fas fa-gauge-high"></i><h4>Performance Optimization</h4><p>Queue workers, cache layers, and database-aware improvements for faster backend workflows.</p></div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <h2 class="section-title reveal">My <span>Skills</span></h2>
+  <p class="section-sub reveal">Technologies I work with</p>
+  <div class="skills-categories">
+    <div class="skill-group reveal">
+      <h3><i class="fas fa-code"></i> Languages</h3>
+      <ul>
+        <li><i class="fab fa-php"></i> PHP</li>
+        <li><i class="fab fa-laravel"></i> Laravel</li>
+        <li><i class="fab fa-js"></i> JavaScript</li>
+        <li><i class="fab fa-node-js"></i> Node.js</li>
+        <li><i class="fab fa-html5"></i> HTML, CSS</li>
+        <li><i class="fas fa-database"></i> MySQL, MongoDB</li>
+      </ul>
+    </div>
+    <div class="skill-group reveal">
+      <h3><i class="fas fa-screwdriver-wrench"></i> Tools</h3>
+      <ul>
+        <li><i class="fas fa-code-branch"></i> VS Code</li>
+        <li><i class="fab fa-git-alt"></i> Git</li>
+        <li><i class="fab fa-aws"></i> AWS</li>
+        <li><i class="fab fa-github"></i> Bitbucket, GitHub, GitLab</li>
+        <li><i class="fas fa-bolt"></i> Supabase</li>
+        <li><i class="fab fa-trello"></i> Trello</li>
+        <li><i class="fab fa-docker"></i> Docker</li>
+      </ul>
+    </div>
+    <div class="skill-group reveal">
+      <h3><i class="fas fa-layer-group"></i> Core Competencies</h3>
+      <ul>
+        <li><i class="fas fa-plug"></i> API Development</li>
+        <li><i class="fas fa-credit-card"></i> Payment Gateways</li>
+        <li><i class="fas fa-link"></i> Third Party APIs Integration</li>
+        <li><i class="fas fa-server"></i> Servers</li>
+        <li><i class="fas fa-list-check"></i> Queues</li>
+        <li><i class="fas fa-box-archive"></i> Caching</li>
+        <li><i class="fas fa-gauge-high"></i> Performance Optimization</li>
+      </ul>
+    </div>
+    <div class="skill-group reveal">
+      <h3><i class="fas fa-robot"></i> AI Tools</h3>
+      <ul>
+        <li><i class="fas fa-terminal"></i> Cursor</li>
+        <li><i class="fas fa-code"></i> Codex</li>
+        <li><i class="fas fa-brain"></i> Claude</li>
+        <li><i class="fas fa-comments"></i> ChatGPT</li>
+        <li><i class="fas fa-rocket"></i> Antigravity</li>
+        <li><i class="fas fa-wand-magic-sparkles"></i> AI Image Generators</li>
+        <li><i class="fas fa-keyboard"></i> Prompt-Based Tools</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE TIMELINE -->
+<section id="experience">
+  <h2 class="section-title reveal">My <span>Journey</span></h2>
+  <p class="section-sub reveal">Education & Work Experience</p>
+  <div class="timeline">
+    <div class="tl-item reveal">
+      <div class="tl-card">
+        <span class="tl-date">Sep 2023 - Present</span>
+        <h4>PHP / Laravel Developer</h4>
+        <h5>Webnyxa Technologies, Noida</h5>
+        <p>Built and deployed interactive web applications using Laravel. Integrated third-party APIs, optimized performance with queues and caching, and collaborated with frontend teams for smooth UI/UX integration.</p>
+      </div>
+    </div>
+    <div class="tl-item reveal">
+      <div class="tl-card">
+        <span class="tl-date">Oct 2022 - Aug 2023</span>
+        <h4>Associate Software Engineer</h4>
+        <h5>Knocial India Limited, Gurgaon</h5>
+        <p>Completed in-depth Laravel and backend development training, then joined full-time. Worked on internal tools and contributed to multiple company projects.</p>
+      </div>
+    </div>
+    <div class="tl-item reveal">
+      <div class="tl-card">
+        <span class="tl-date">2019 - 2023</span>
+        <h4>Bachelor of Technology (Computer Science)</h4>
+        <h5>Sanskar Educational Group, Ghaziabad</h5>
+        <p>Completed B.Tech in Computer Science with hands-on experience in academic projects and coursework.</p>
+      </div>
+    </div>
+    <div class="tl-item reveal">
+      <div class="tl-card">
+        <span class="tl-date">2017 - 2019</span>
+        <h4>Intermediate</h4>
+        <h5>Vip Inter College, Pilkhuwa</h5>
+        <p>Completed Intermediate with a strong foundation in Mathematics, Physics, and Chemistry.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <h2 class="section-title reveal">My <span>Projects</span></h2>
+  <p class="section-sub reveal">Some of my recent works</p>
+  <div class="projects">
+    <div class="project tilt reveal">
+      <div class="project-img"><img src="public/images/ab-app.jpg" alt="Actively Black e-commerce mobile app"></div>
+      <div class="project-body">
+        <h3>E-Commerce Platform</h3>
+        <h4>Actively Black</h4>
+        <p>Modern e-commerce solution with APIs in Laravel and third-party APIs.</p>
+        <div class="tags"><span class="tag">Mobile Development</span><span class="tag">Laravel</span><span class="tag">APIs</span></div>
+      </div>
+    </div>
+    <div class="project tilt reveal">
+      <div class="project-img"><img src="public/images/manas.jpg" alt="Manasprint learning platform"></div>
+      <div class="project-body">
+        <h3>Learning Platform</h3>
+        <h4>Manasprint</h4>
+        <p>A learning platform for UPSC aspirants where users practice exam activities in the app. Built in Laravel.</p>
+        <div class="tags"><span class="tag">Mobile Development</span><span class="tag">Laravel</span><span class="tag">Education</span></div>
+      </div>
+    </div>
+    <div class="project tilt reveal">
+      <div class="project-img"><img src="public/images/ai-study-buddy.png" alt="AI Study Buddy platform"></div>
+      <div class="project-body">
+        <h3>AI Learning Platform</h3>
+        <h4>AI Study Buddy</h4>
+        <p>A platform for students from standard 1st to 12th to practice subjects using AI activities.</p>
+        <div class="tags"><span class="tag">AI Based Apps</span><span class="tag">Learning</span><span class="tag">AI</span></div>
+      </div>
+    </div>
+    <div class="project tilt reveal">
+      <div class="project-img"><img src="public/images/ai-chat.png" alt="Magic AI image generator"></div>
+      <div class="project-body">
+        <h3>AI Image Generator</h3>
+        <h4>Magic AI</h4>
+        <p>Magic AI is an AI-powered image generation tool built with Core PHP. Users enter prompts to generate unique images.</p>
+        <div class="tags"><span class="tag">AI Based Apps</span><span class="tag">Core PHP</span><span class="tag">Prompt Tools</span></div>
+      </div>
+    </div>
+    <div class="project tilt reveal">
+      <div class="project-img"><img src="public/images/newsapp.png" alt="News Aggregate web app"></div>
+      <div class="project-body">
+        <h3>News Update</h3>
+        <h4>News Aggregate</h4>
+        <p>A dynamic Laravel web app that fetches and displays the latest news from multiple sources daily.</p>
+        <div class="tags"><span class="tag">Web Development</span><span class="tag">Laravel</span><span class="tag">News APIs</span></div>
+      </div>
+    </div>
+    <div class="project tilt reveal">
+      <div class="project-img"><img src="public/images/healthwealth.png" alt="Health Wealth hospital platform"></div>
+      <div class="project-body">
+        <h3>Hospital Platform</h3>
+        <h4>Health Wealth</h4>
+        <p>A hospital management platform where patients can book appointments, view doctor profiles, and access health services online.</p>
+        <div class="tags"><span class="tag">Web Development</span><span class="tag">Laravel</span><span class="tag">Healthcare</span></div>
+      </div>
+    </div>
+    <div class="project tilt reveal">
+      <div class="project-img"><img src="public/images/book-ecommerce.png" alt="Buy Books e-commerce platform"></div>
+      <div class="project-body">
+        <h3>E-Commerce Platform</h3>
+        <h4>Buy Books</h4>
+        <p>Modern e-commerce solution with Laravel and Vite.js.</p>
+        <div class="tags"><span class="tag">Web Development</span><span class="tag">Laravel</span><span class="tag">Vite.js</span></div>
+      </div>
+    </div>
+    <div class="project tilt reveal">
+      <div class="project-img"><img src="public/images/chatapp.png" alt="Chat application"></div>
+      <div class="project-body">
+        <h3>Chat Application</h3>
+        <h4>Chat App</h4>
+        <p>A real-time chat application built with Laravel and Vue.js that enables instant messages between users.</p>
+        <div class="tags"><span class="tag">Web Development</span><span class="tag">Laravel</span><span class="tag">Vue.js</span></div>
+      </div>
+    </div>
+    <div class="project tilt reveal">
+      <div class="project-img"><img src="public/images/copyartwork.png" alt="Copyartwork service platform"></div>
+      <div class="project-body">
+        <h3>Service-Based Platform</h3>
+        <h4>Copyartwork</h4>
+        <p>A custom service platform where users upload images and request professional editing services. Built with Core PHP.</p>
+        <div class="tags"><span class="tag">Web Development</span><span class="tag">Core PHP</span><span class="tag">Services</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <h2 class="section-title reveal">Get In <span>Touch</span></h2>
+  <p class="section-sub reveal">Let's build something amazing together</p>
+  <div class="contact-wrap">
+    <div class="contact-info reveal">
+      <div class="info-item"><i class="fas fa-envelope"></i><div><h4>Email</h4><p><a href="mailto:prashantkumarr9837@gmail.com?subject=Project%20Inquiry%20from%20Portfolio">prashantkumarr9837@gmail.com</a></p></div></div>
+      <div class="info-item"><i class="fas fa-phone"></i><div><h4>Phone</h4><p><a href="tel:+917037729841">+91-7037729841</a></p></div></div>
+      <div class="info-item"><i class="fas fa-map-marker-alt"></i><div><h4>Location</h4><p>Ghaziabad, Uttar Pradesh</p></div></div>
+      <div class="info-item"><i class="fab fa-github"></i><div><h4>GitHub</h4><p><a href="https://github.com/Prashant-kumar070" target="_blank" rel="noopener noreferrer">github.com/Prashant-kumar070</a></p></div></div>
+      <div class="info-item"><i class="fab fa-linkedin"></i><div><h4>LinkedIn</h4><p><a href="https://www.linkedin.com/in/prashant-kumar-740568224/" target="_blank" rel="noopener noreferrer">linkedin.com/in/prashant-kumar-740568224</a></p></div></div>
+      <div class="info-item"><i class="fab fa-gitlab"></i><div><h4>GitLab</h4><p><a href="https://gitlab.com/prashant_kumar0" target="_blank" rel="noopener noreferrer">gitlab.com/prashant_kumar0</a></p></div></div>
+    </div>
+    <form class="reveal" id="contactForm">
+      <div class="form-status" id="contactStatus" role="status" aria-live="polite"></div>
+      <input type="text" name="name" placeholder="Your Name" required>
+      <input type="email" name="email" placeholder="Your Email" required>
+      <input type="text" name="subject" placeholder="Subject">
+      <textarea name="message" placeholder="Your Message" required></textarea>
+      <button type="submit" class="btn btn-primary" id="contactSubmit"><i class="fas fa-paper-plane"></i> <span>Send Message</span></button>
+    </form>
+  </div>
+</section>
+
+<button class="top-btn" id="topBtn"><i class="fas fa-arrow-up"></i></button>
+
+<footer>
+  <p>© 2026 <span>Prashant Kumar</span> · Backend Developer</p>
+</footer>
+
+<script>
+/* ============ THEME TOGGLE ============ */
+const themeBtn=document.getElementById('themeBtn');
+const html=document.documentElement;
+const savedTheme=localStorage.getItem('theme')||'dark';
+html.setAttribute('data-theme',savedTheme);
+themeBtn.addEventListener('click',()=>{
+  const cur=html.getAttribute('data-theme');
+  const next=cur==='dark'?'light':'dark';
+  html.setAttribute('data-theme',next);
+  localStorage.setItem('theme',next);
+});
+
+/* ============ PARTICLES BACKGROUND ============ */
+const canvas=document.getElementById('particles');
+const ctx=canvas.getContext('2d');
+let particles=[];
+function resizeCanvas(){canvas.width=innerWidth;canvas.height=innerHeight;}
+resizeCanvas();
+addEventListener('resize',resizeCanvas);
+
+class Particle{
+  constructor(){
+    this.x=Math.random()*canvas.width;
+    this.y=Math.random()*canvas.height;
+    this.vx=(Math.random()-0.5)*0.4;
+    this.vy=(Math.random()-0.5)*0.4;
+    this.r=Math.random()*2+1;
+  }
+  update(){
+    this.x+=this.vx;this.y+=this.vy;
+    if(this.x<0||this.x>canvas.width)this.vx*=-1;
+    if(this.y<0||this.y>canvas.height)this.vy*=-1;
+  }
+  draw(){
+    const isDark=html.getAttribute('data-theme')==='dark';
+    ctx.fillStyle=isDark?'rgba(34,211,238,0.6)':'rgba(99,102,241,0.5)';
+    ctx.beginPath();
+    ctx.arc(this.x,this.y,this.r,0,Math.PI*2);
+    ctx.fill();
+  }
+}
+function initParticles(){
+  particles=[];
+  const count=innerWidth<768?40:90;
+  for(let i=0;i<count;i++)particles.push(new Particle());
+}
+initParticles();
+addEventListener('resize',initParticles);
+
+function connect(){
+  const isDark=html.getAttribute('data-theme')==='dark';
+  for(let i=0;i<particles.length;i++){
+    for(let j=i+1;j<particles.length;j++){
+      const dx=particles[i].x-particles[j].x;
+      const dy=particles[i].y-particles[j].y;
+      const d=Math.sqrt(dx*dx+dy*dy);
+      if(d<120){
+        ctx.strokeStyle=isDark?`rgba(99,102,241,${0.25*(1-d/120)})`:`rgba(99,102,241,${0.2*(1-d/120)})`;
+        ctx.lineWidth=1;
+        ctx.beginPath();
+        ctx.moveTo(particles[i].x,particles[i].y);
+        ctx.lineTo(particles[j].x,particles[j].y);
+        ctx.stroke();
+      }
+    }
+  }
+}
+function animate(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  particles.forEach(p=>{p.update();p.draw();});
+  connect();
+  requestAnimationFrame(animate);
+}
+animate();
+
+/* ============ 3D TILT EFFECT ============ */
+document.querySelectorAll('.tilt').forEach(el=>{
+  el.addEventListener('mousemove',e=>{
+    const rect=el.getBoundingClientRect();
+    const x=e.clientX-rect.left;
+    const y=e.clientY-rect.top;
+    const cx=rect.width/2;
+    const cy=rect.height/2;
+    const rotX=((y-cy)/cy)*-10;
+    const rotY=((x-cx)/cx)*10;
+    el.style.transform=`perspective(1000px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale3d(1.03,1.03,1.03)`;
+  });
+  el.addEventListener('mouseleave',()=>{
+    el.style.transform='perspective(1000px) rotateX(0) rotateY(0) scale3d(1,1,1)';
+  });
+});
+
+/* ============ CUSTOM CURSOR ============ */
+const cursor=document.getElementById('cursor');
+document.addEventListener('mousemove',e=>{cursor.style.left=e.clientX-10+'px';cursor.style.top=e.clientY-10+'px';});
+document.querySelectorAll('a,button,.skill,.skill-group,.project,.tl-card').forEach(el=>{
+  el.addEventListener('mouseenter',()=>cursor.classList.add('hover'));
+  el.addEventListener('mouseleave',()=>cursor.classList.remove('hover'));
+});
+
+/* ============ TYPING ANIMATION ============ */
+const words=['Backend Developer','PHP / Laravel Developer','WordPress Developer','Node.js Developer','Queue & Caching Specialist','API Integration Specialist'];
+let wi=0,ci=0,deleting=false;
+const typed=document.getElementById('typed');
+function type(){
+  const word=words[wi];
+  typed.textContent=word.substring(0,ci);
+  if(!deleting && ci<word.length){ci++;setTimeout(type,100);}
+  else if(deleting && ci>0){ci--;setTimeout(type,50);}
+  else{deleting=!deleting;if(!deleting)wi=(wi+1)%words.length;setTimeout(type,1200);}
+}
+type();
+
+/* ============ ZULIP CONTACT FORM ============ */
+const contactForm=document.getElementById('contactForm');
+const contactStatus=document.getElementById('contactStatus');
+const contactSubmit=document.getElementById('contactSubmit');
+const contactSubmitText=contactSubmit?.querySelector('span');
+let contactTimer;
+
+function showContactStatus(type,message){
+  clearTimeout(contactTimer);
+  contactStatus.textContent=message;
+  contactStatus.className=`form-status show ${type}`;
+  contactTimer=setTimeout(()=>{
+    contactStatus.className='form-status';
+    contactStatus.textContent='';
+  },5000);
+}
+
+contactForm.addEventListener('submit',async e=>{
+  e.preventDefault();
+  if(contactSubmit.disabled)return;
+
+  const formData=new FormData(contactForm);
+  const name=String(formData.get('name')||'').trim();
+  const email=String(formData.get('email')||'').trim();
+  const subject=String(formData.get('subject')||'New Contact Message').trim()||'New Contact Message';
+  const message=String(formData.get('message')||'').trim();
+
+  contactSubmit.disabled=true;
+  contactSubmitText.textContent='Sending...';
+
+  const payload={
+    type:'stream',
+    to:'general',
+    topic:'New Contact Message',
+    content:`**Name:** ${name}\n**Email:** ${email}\n**Subject:** ${subject}\n**Message:** ${message}`
+  };
+  const botEmail='code-world-bot@codeworld.zulipchat.com';
+  const apiKey='LQ1ZbvIbO7269FzgCNZqgL84NUh4nLyU';
+  const apiUrl='https://codeworld.zulipchat.com/api/v1/messages';
+
+  try{
+    const response=await fetch(apiUrl,{
+      method:'POST',
+      headers:{
+        Authorization:'Basic '+btoa(`${botEmail}:${apiKey}`),
+        'Content-Type':'application/x-www-form-urlencoded'
+      },
+      body:new URLSearchParams(payload)
+    });
+    const data=await response.json();
+    if(data.result==='success'){
+      showContactStatus('success','Message sent successfully!');
+      contactForm.reset();
+    }else{
+      showContactStatus('error',data.msg||'Failed to send message. Try again later.');
+    }
+  }catch(error){
+    console.error('Zulip error:',error);
+    showContactStatus('error','Something went wrong. Please try again.');
+  }finally{
+    contactSubmit.disabled=false;
+    contactSubmitText.textContent='Send Message';
+  }
+});
+
+/* ============ SCROLL REVEAL ============ */
+const reveals=document.querySelectorAll('.reveal');
+const obs=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('show');}),{threshold:.12});
+reveals.forEach(r=>obs.observe(r));
+
+/* ============ ACTIVE NAV LINK ============ */
+const sections=document.querySelectorAll('section');
+const navLinks=document.querySelectorAll('.nav-links a');
+addEventListener('scroll',()=>{
+  let current='';
+  sections.forEach(s=>{if(scrollY>=s.offsetTop-150)current=s.id;});
+  navLinks.forEach(l=>{l.classList.remove('active');if(l.getAttribute('href')==='#'+current)l.classList.add('active');});
+  /* Top button */
+  document.getElementById('topBtn').classList.toggle('show',scrollY>400);
+});
+
+/* ============ MOBILE MENU ============ */
+const menuBtn=document.getElementById('menuBtn');
+const navList=document.getElementById('navLinks');
+menuBtn.addEventListener('click',()=>navList.classList.toggle('show'));
+navLinks.forEach(l=>l.addEventListener('click',()=>navList.classList.remove('show')));
+
+/* ============ SCROLL TOP ============ */
+document.getElementById('topBtn').addEventListener('click',()=>scrollTo({top:0,behavior:'smooth'}));
+</script>
+</body>
+</html>
