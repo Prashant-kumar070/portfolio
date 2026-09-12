@@ -1,0 +1,38 @@
+name: Update SiteLive card image
+
+on:
+  push:
+    branches:
+      - feature/add-sitelive-project
+
+permissions:
+  contents: write
+
+jobs:
+  update-card:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feature/add-sitelive-project
+      - name: Replace SiteLive icon with screenshot
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          path = Path('index.html')
+          text = path.read_text()
+          old = '<div class="project-img"><i class="fas fa-globe"></i></div>'
+          new = '<div class="project-img"><img src="public/images/sitelive.png" alt="SiteLive.ai AI website builder"></div>'
+          if old in text:
+              path.write_text(text.replace(old, new, 1))
+          PY
+      - name: Commit update if needed
+        run: |
+          if git diff --quiet; then
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git commit -m "Use SiteLive screenshot in project card"
+          git push
