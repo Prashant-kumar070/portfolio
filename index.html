@@ -416,6 +416,19 @@ footer span{color:var(--accent);}
       </ul>
     </div>
     <div class="skill-group reveal">
+      <h3><i class="fas fa-brain"></i> AI / RAG</h3>
+      <ul>
+        <li><i class="fas fa-diagram-project"></i> RAG</li>
+        <li><i class="fas fa-cubes"></i> Embeddings</li>
+        <li><i class="fas fa-plug"></i> Embedding APIs — OpenAI, Gemini</li>
+        <li><i class="fas fa-magnifying-glass"></i> Semantic / Vector Search</li>
+        <li><i class="fas fa-database"></i> pgvector</li>
+        <li><i class="fas fa-robot"></i> LLM APIs — OpenAI, Gemini, Groq</li>
+        <li><i class="fas fa-keyboard"></i> Prompt Engineering</li>
+        <li><i class="fas fa-file-lines"></i> Document Chunking</li>
+      </ul>
+    </div>
+    <div class="skill-group reveal">
       <h3><i class="fas fa-robot"></i> AI Tools</h3>
       <ul>
         <li><i class="fas fa-terminal"></i> Cursor</li>
@@ -698,58 +711,4 @@ document.addEventListener('mousemove',e=>{cursor.style.left=e.clientX-10+'px';cu
 document.querySelectorAll('a,button,.skill,.skill-group,.project,.tl-card').forEach(el=>{
   el.addEventListener('mouseenter',()=>cursor.classList.add('hover'));
   el.addEventListener('mouseleave',()=>cursor.classList.remove('hover'));
-});
-
-/* ============ TYPING ANIMATION ============ */
-const words=['Backend Developer','PHP / Laravel Developer','Python / FastAPI Developer','RAG & LLM Integration','WordPress Developer','Node.js Developer','API Integration Specialist'];
-let wi=0,ci=0,deleting=false;
-const typed=document.getElementById('typed');
-function type(){
-  const word=words[wi];
-  typed.textContent=word.substring(0,ci);
-  if(!deleting && ci<word.length){ci++;setTimeout(type,100);}
-  else if(deleting && ci>0){ci--;setTimeout(type,50);}
-  else{deleting=!deleting;if(!deleting)wi=(wi+1)%words.length;setTimeout(type,1200);}
-}
-type();
-
-/* ============ CONTACT FORM ============ */
-const contactForm=document.getElementById('contactForm');
-contactForm.addEventListener('submit',e=>{
-  e.preventDefault();
-  const formData=new FormData(contactForm);
-  const name=String(formData.get('name')||'').trim();
-  const email=String(formData.get('email')||'').trim();
-  const subject=String(formData.get('subject')||'Portfolio Contact').trim()||'Portfolio Contact';
-  const message=String(formData.get('message')||'').trim();
-  const body=`Name: ${name}\nEmail: ${email}\n\n${message}`;
-  window.location.href=`mailto:prashantkumarr9837@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-});
-
-/* ============ SCROLL REVEAL ============ */
-const reveals=document.querySelectorAll('.reveal');
-const obs=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('show');}),{threshold:.12});
-reveals.forEach(r=>obs.observe(r));
-
-/* ============ ACTIVE NAV LINK ============ */
-const sections=document.querySelectorAll('section');
-const navLinks=document.querySelectorAll('.nav-links a');
-addEventListener('scroll',()=>{
-  let current='';
-  sections.forEach(s=>{if(scrollY>=s.offsetTop-150)current=s.id;});
-  navLinks.forEach(l=>{l.classList.remove('active');if(l.getAttribute('href')==='#'+current)l.classList.add('active');});
-  /* Top button */
-  document.getElementById('topBtn').classList.toggle('show',scrollY>400);
-});
-
-/* ============ MOBILE MENU ============ */
-const menuBtn=document.getElementById('menuBtn');
-const navList=document.getElementById('navLinks');
-menuBtn.addEventListener('click',()=>navList.classList.toggle('show'));
-navLinks.forEach(l=>l.addEventListener('click',()=>navList.classList.remove('show')));
-
-/* ============ SCROLL TOP ============ */
-document.getElementById('topBtn').addEventListener('click',()=>scrollTo({top:0,behavior:'smooth'}));
-</script>
-</body>
-</html>
+/* Contact form integration temporarily removed from client-side script. */
