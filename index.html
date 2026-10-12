@@ -306,7 +306,7 @@ footer span{color:var(--accent);}
     <h4>HELLO THERE, I'M</h4>
     <h1>Prashant <span>Kumar</span></h1>
     <div class="typed" id="typed"></div>
-    <p>Backend Developer with 3 years of hands-on experience in PHP, Laravel, WordPress, Node.js, queues, caching, server management, and third-party API integrations.</p>
+    <p>Backend Developer with 3+ years of hands-on experience in PHP, Laravel, Python, FastAPI, WordPress, Node.js, REST APIs, queues, caching, server management, and AI/RAG integrations.</p>
     <div class="btn-group">
       <a href="mailto:prashantkumarr9837@gmail.com?subject=Project%20Inquiry%20from%20Portfolio" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Hire Me</a>
       <a href="public/Prashant's_Resume.pdf" download class="btn btn-outline"><i class="fas fa-download"></i> Download CV</a>
@@ -337,8 +337,8 @@ footer span{color:var(--accent);}
     </div>
     <div class="about-text reveal">
       <h3>A <span>Backend Developer</span> from Ghaziabad, India</h3>
-      <p>I'm a Backend Developer with 3 years of hands-on experience in PHP, Laravel and WordPress. I specialize in building robust, scalable, and efficient web applications, managing servers, integrating third-party APIs, and improving backend performance with queues and caching.</p>
-      <p>My goal is to deliver high-performance solutions that are functional, intuitive, and user-friendly. I've contributed to AI-powered learning platforms, AI image generators, bot agents, and healthcare systems built to solve real-world problems creatively and efficiently.</p>
+      <p>I'm a Backend Developer with 3+ years of hands-on experience in PHP, Laravel, Python, FastAPI and WordPress. I specialize in building robust APIs and web applications, managing servers, integrating third-party services, and improving backend performance with queues and caching.</p>
+      <p>My goal is to deliver high-performance solutions that are functional, intuitive, and user-friendly. I also work with RAG pipelines, document chunking, embeddings, semantic/vector search, pgvector, prompt engineering, and LLM APIs including OpenAI, Gemini, and Groq.</p>
       <div class="about-info">
         <div><b>Name:</b> Prashant Kumar</div>
         <div><b>Email:</b> prashantkumarr9837@gmail.com</div>
@@ -372,8 +372,10 @@ footer span{color:var(--accent);}
         <li><i class="fab fa-laravel"></i> Laravel</li>
         <li><i class="fab fa-js"></i> JavaScript</li>
         <li><i class="fab fa-node-js"></i> Node.js</li>
+        <li><i class="fab fa-python"></i> Python</li>
+        <li><i class="fas fa-bolt"></i> FastAPI</li>
         <li><i class="fab fa-html5"></i> HTML, CSS</li>
-        <li><i class="fas fa-database"></i> MySQL, MongoDB</li>
+        <li><i class="fas fa-database"></i> MySQL, PostgreSQL, MongoDB</li>
       </ul>
     </div>
     <div class="skill-group reveal">
@@ -398,6 +400,19 @@ footer span{color:var(--accent);}
         <li><i class="fas fa-list-check"></i> Queues</li>
         <li><i class="fas fa-box-archive"></i> Caching</li>
         <li><i class="fas fa-gauge-high"></i> Performance Optimization</li>
+      </ul>
+    </div>
+    <div class="skill-group reveal">
+      <h3><i class="fas fa-brain"></i> AI / RAG</h3>
+      <ul>
+        <li><i class="fas fa-diagram-project"></i> RAG</li>
+        <li><i class="fas fa-cubes"></i> Embeddings</li>
+        <li><i class="fas fa-plug"></i> Embedding APIs — OpenAI, Gemini</li>
+        <li><i class="fas fa-magnifying-glass"></i> Semantic / Vector Search</li>
+        <li><i class="fas fa-database"></i> pgvector</li>
+        <li><i class="fas fa-robot"></i> LLM APIs — OpenAI, Gemini, Groq</li>
+        <li><i class="fas fa-keyboard"></i> Prompt Engineering</li>
+        <li><i class="fas fa-file-lines"></i> Document Chunking</li>
       </ul>
     </div>
     <div class="skill-group reveal">
@@ -686,7 +701,7 @@ document.querySelectorAll('a,button,.skill,.skill-group,.project,.tl-card').forE
 });
 
 /* ============ TYPING ANIMATION ============ */
-const words=['Backend Developer','PHP / Laravel Developer','WordPress Developer','Node.js Developer','Queue & Caching Specialist','API Integration Specialist'];
+const words=['Backend Developer','PHP / Laravel Developer','Python / FastAPI Developer','RAG & LLM Integration','WordPress Developer','Node.js Developer','API Integration Specialist'];
 let wi=0,ci=0,deleting=false;
 const typed=document.getElementById('typed');
 function type(){
@@ -698,69 +713,17 @@ function type(){
 }
 type();
 
-/* ============ ZULIP CONTACT FORM ============ */
+/* ============ CONTACT FORM ============ */
 const contactForm=document.getElementById('contactForm');
-const contactStatus=document.getElementById('contactStatus');
-const contactSubmit=document.getElementById('contactSubmit');
-const contactSubmitText=contactSubmit?.querySelector('span');
-let contactTimer;
-
-function showContactStatus(type,message){
-  clearTimeout(contactTimer);
-  contactStatus.textContent=message;
-  contactStatus.className=`form-status show ${type}`;
-  contactTimer=setTimeout(()=>{
-    contactStatus.className='form-status';
-    contactStatus.textContent='';
-  },5000);
-}
-
-contactForm.addEventListener('submit',async e=>{
+contactForm.addEventListener('submit',e=>{
   e.preventDefault();
-  if(contactSubmit.disabled)return;
-
   const formData=new FormData(contactForm);
   const name=String(formData.get('name')||'').trim();
   const email=String(formData.get('email')||'').trim();
-  const subject=String(formData.get('subject')||'New Contact Message').trim()||'New Contact Message';
+  const subject=String(formData.get('subject')||'Portfolio Contact').trim()||'Portfolio Contact';
   const message=String(formData.get('message')||'').trim();
-
-  contactSubmit.disabled=true;
-  contactSubmitText.textContent='Sending...';
-
-  const payload={
-    type:'stream',
-    to:'general',
-    topic:'New Contact Message',
-    content:`**Name:** ${name}\n**Email:** ${email}\n**Subject:** ${subject}\n**Message:** ${message}`
-  };
-  const botEmail='code-world-bot@codeworld.zulipchat.com';
-  const apiKey='LQ1ZbvIbO7269FzgCNZqgL84NUh4nLyU';
-  const apiUrl='https://codeworld.zulipchat.com/api/v1/messages';
-
-  try{
-    const response=await fetch(apiUrl,{
-      method:'POST',
-      headers:{
-        Authorization:'Basic '+btoa(`${botEmail}:${apiKey}`),
-        'Content-Type':'application/x-www-form-urlencoded'
-      },
-      body:new URLSearchParams(payload)
-    });
-    const data=await response.json();
-    if(data.result==='success'){
-      showContactStatus('success','Message sent successfully!');
-      contactForm.reset();
-    }else{
-      showContactStatus('error',data.msg||'Failed to send message. Try again later.');
-    }
-  }catch(error){
-    console.error('Zulip error:',error);
-    showContactStatus('error','Something went wrong. Please try again.');
-  }finally{
-    contactSubmit.disabled=false;
-    contactSubmitText.textContent='Send Message';
-  }
+  const body=`Name: ${name}\nEmail: ${email}\n\n${message}`;
+  window.location.href=`mailto:prashantkumarr9837@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 });
 
 /* ============ SCROLL REVEAL ============ */
