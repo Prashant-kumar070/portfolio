@@ -726,4 +726,63 @@ function type(){
 }
 type();
 
-/* Contact form integration temporarily removed from client-side script. */
+/* ============ CONTACT FORM ============ */
+const contactForm=document.getElementById('contactForm');
+if(contactForm){
+  contactForm.addEventListener('submit',e=>{
+    e.preventDefault();
+    const formData=new FormData(contactForm);
+    const name=String(formData.get('name')||'').trim();
+    const email=String(formData.get('email')||'').trim();
+    const subject=String(formData.get('subject')||'Portfolio Contact').trim()||'Portfolio Contact';
+    const message=String(formData.get('message')||'').trim();
+    const body=`Name: ${name}\nEmail: ${email}\n\n${message}`;
+    window.location.href=`mailto:prashantkumarr9837@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  });
+}
+
+/* ============ SCROLL REVEAL ============ */
+const reveals=document.querySelectorAll('.reveal');
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting) entry.target.classList.add('show');
+  });
+},{threshold:.08});
+reveals.forEach(el=>obs.observe(el));
+
+setTimeout(()=>{
+  document.querySelectorAll('.reveal').forEach(el=>el.classList.add('show'));
+},1200);
+
+/* ============ ACTIVE NAV LINK ============ */
+const sections=document.querySelectorAll('section');
+const navLinks=document.querySelectorAll('.nav-links a');
+addEventListener('scroll',()=>{
+  let current='';
+  sections.forEach(section=>{
+    if(scrollY>=section.offsetTop-150) current=section.id;
+  });
+  navLinks.forEach(link=>{
+    link.classList.remove('active');
+    if(link.getAttribute('href')==='#'+current) link.classList.add('active');
+  });
+  const topBtn=document.getElementById('topBtn');
+  if(topBtn) topBtn.classList.toggle('show',scrollY>400);
+});
+
+/* ============ MOBILE MENU ============ */
+const menuBtn=document.getElementById('menuBtn');
+const navList=document.getElementById('navLinks');
+if(menuBtn && navList){
+  menuBtn.addEventListener('click',()=>navList.classList.toggle('show'));
+  navLinks.forEach(link=>link.addEventListener('click',()=>navList.classList.remove('show')));
+}
+
+/* ============ SCROLL TOP ============ */
+const topBtn=document.getElementById('topBtn');
+if(topBtn){
+  topBtn.addEventListener('click',()=>scrollTo({top:0,behavior:'smooth'}));
+}
+</script>
+</body>
+</html>
