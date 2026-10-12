@@ -711,4 +711,19 @@ document.addEventListener('mousemove',e=>{cursor.style.left=e.clientX-10+'px';cu
 document.querySelectorAll('a,button,.skill,.skill-group,.project,.tl-card').forEach(el=>{
   el.addEventListener('mouseenter',()=>cursor.classList.add('hover'));
   el.addEventListener('mouseleave',()=>cursor.classList.remove('hover'));
+});
+
+/* ============ TYPING ANIMATION ============ */
+const words=['Backend Developer','PHP / Laravel Developer','Python / FastAPI Developer','RAG & LLM Integration','WordPress Developer','Node.js Developer','API Integration Specialist'];
+let wi=0,ci=0,deleting=false;
+const typed=document.getElementById('typed');
+function type(){
+  const word=words[wi];
+  typed.textContent=word.substring(0,ci);
+  if(!deleting && ci<word.length){ci++;setTimeout(type,100);}
+  else if(deleting && ci>0){ci--;setTimeout(type,50);}
+  else{deleting=!deleting;if(!deleting)wi=(wi+1)%words.length;setTimeout(type,1200);}
+}
+type();
+
 /* Contact form integration temporarily removed from client-side script. */
